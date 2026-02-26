@@ -1,56 +1,61 @@
-"""Скрипт для проверки установленных зависимостей.
+"""Скрипт для проверки установленных зависимостей."""
 
-Позволяет проверить, какие пакеты установлены в текущем окружении.
-"""
+import sys
+import importlib.metadata
 
 
 def check_package_installed(package_name: str) -> bool:
-    """Проверяет, установлен ли пакет.
-
-    Args:
-        package_name: Имя пакета для проверки
-
-    Returns:
-        True если пакет установлен, иначе False
-    """
-    # TODO: получить список установленных пакетов через pkg_resources или subprocess
-    # Подсказка: можно использовать importlib.metadata или pkg_resources
-    pass
+    """Проверяет, установлен ли пакет."""
+    try:
+        importlib.metadata.distribution(package_name)
+        return True
+    except importlib.metadata.PackageNotFoundError:
+        return False
 
 
 def get_package_version(package_name: str) -> str | None:
-    """Возвращает версию установленного пакета.
-
-    Args:
-        package_name: Имя пакета
-
-    Returns:
-        Версия пакета или None, если пакет не установлен
-    """
-    # TODO: получить версию пакета
-    pass
+    """Возвращает версию установленного пакета."""
+    try:
+        return importlib.metadata.version(package_name)
+    except importlib.metadata.PackageNotFoundError:
+        return None
 
 
 def check_dependencies() -> None:
     """Проверяет наличие требуемых зависимостей."""
+    # Проверяем виртуальное окружение
+    if ".venv" in sys.executable:
+        print("Виртуальное окружение АКТИВНО")
+    else:
+        print("Виртуальное окружение НЕ активно")
+    print()
+
     # Список пакетов для проверки
-    required_packages = [
-        "requests",
-        "click",
-        "pydantic",
-    ]
+    required_packages = ["requests", "click", "pydantic"]
+    all_installed = True
+    for package in required_packages:
+        installed = check_package_installed(package)
+        version = get_package_version(package)
 
-    # TODO: проверить наличие требуемых пакетов
-    # Подсказка: используйте функции check_package_installed и get_package_version
+        if installed:
+            print(f"{package:10} установлен: версия {version}")
+        else:
+            print(f"{package:10} НЕ УСТАНОВЛЕН")
+            all_installed = False
 
-    # TODO: вывести список версий установленных пакетов
-    pass
+    installed_packages = []
+    for dist in importlib.metadata.distributions():
+        name = dist.metadata.get("Name", "unknown")
+        if name and not name.startswith("_"):
+            installed_packages.append((name, dist.version))
 
+    for name, ver in sorted(installed_packages):
+        print(f"{name:25} {ver}")
+
+    print(f"\nВсего пакетов: {len(installed_packages)}")
 
 def main() -> None:
-    """Точка входа для проверки зависимостей."""
     check_dependencies()
-
 
 if __name__ == "__main__":
     main()
