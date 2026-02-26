@@ -1,13 +1,24 @@
-# Файл блокировки зависимостей (requirements.lock)
-#
-# Содержит точные версии всех зависимостей для воспроизводимости.
-# Генерируется инструментами вроде poetry, pip-tools или pipenv.
-#
-# TODO: сгенерировать файл блокировки зависимостей
-# Пример команды: pip-compile requirements.txt -o requirements.lock
-#
-# Или через poetry:
-# poetry lock
-#
-# Или через pipenv:
-# pipenv lock -r > requirements.lock
+annotated-types==0.7.0
+black==26.1.0
+certifi==2026.2.25
+charset-normalizer==3.4.4
+click==8.3.1
+idna==3.11
+iniconfig==2.3.0
+-e git+https://github.com/nadiaVsivkova-png/laba-2.git@582ab3ad8ad68498803096f400caa6532f5783ec#egg=my_package&subdirectory=my_project
+-e git+https://github.com/nadiaVsivkova-png/laba-2.git@582ab3ad8ad68498803096f400caa6532f5783ec#egg=my_project&subdirectory=my_project
+mypy_extensions==1.1.0
+packaging==26.0
+pathspec==1.0.4
+platformdirs==4.9.2
+pluggy==1.6.0
+pydantic==2.12.5
+pydantic_core==2.41.5
+Pygments==2.19.2
+pytest==9.0.2
+pytokens==0.4.1
+requests==2.32.5
+ruff==0.15.3
+typing-inspection==0.4.2
+typing_extensions==4.15.0
+urllib3==2.6.3
