@@ -3,72 +3,59 @@
 Содержит класс Calculator для выполнения основных арифметических операций.
 """
 
+from .utils import validate_number, format_result
 
 class Calculator:
-    """Калькулятор для выполнения базовых арифметических операций."""
 
     def add(self, a: float, b: float) -> float:
-        """Складывает два числа.
-
-        Args:
-            a: Первое слагаемое
-            b: Второе слагаемое
-
-        Returns:
-            Сумма a и b
-        """
-        # TODO: реализовать сложение
-        pass
+        a = validate_number(a)
+        b = validate_number(b)
+        return a + b
 
     def subtract(self, a: float, b: float) -> float:
-        """Вычитает одно число из другого.
-
-        Args:
-            a: Уменьшаемое
-            b: Вычитаемое
-
-        Returns:
-            Разность a и b
-        """
-        # TODO: реализовать вычитание
-        pass
+        a = validate_number(a)
+        b = validate_number(b)
+        return a - b
 
     def multiply(self, a: float, b: float) -> float:
-        """Умножает два числа.
-
-        Args:
-            a: Первый множитель
-            b: Второй множитель
-
-        Returns:
-            Произведение a и b
-        """
-        # TODO: реализовать умножение
-        pass
+        a = validate_number(a)
+        b = validate_number(b)
+        return a * b
 
     def divide(self, a: float, b: float) -> float:
-        """Делит одно число на другое.
+        a = validate_number(a)
+        b = validate_number(b)
 
-        Args:
-            a: Делимое
-            b: Делитель
+        if b == 0:
+            raise ZeroDivisionError("Деление на ноль запрещено")
 
-        Returns:
-            Частное от деления a на b
-
-        Raises:
-            ZeroDivisionError: Если делитель равен нулю
-        """
-        # TODO: реализовать деление с проверкой делителя на ноль
-        pass
+        return a / b
 
 
 def main() -> None:
-    """Демонстрация работы калькулятора."""
-    # TODO: создать экземпляр Calculator
-    # TODO: протестировать все методы
-    pass
+    calc = Calculator()
+    print(f"10 + 5 = {calc.add(10, 5)}")
 
+    print(f"20 - 8 = {calc.subtract(20, 8)}")
+
+    print(f"7 * 6 = {calc.multiply(7, 6)}")
+
+    print(f"45 / 9 = {calc.divide(45, 9)}")
+
+    print(f"'10' + '5' = {calc.add("10", "5")}")
+
+    try:
+        print(f"10 / 0 = {calc.divide(10, 0)}")
+    except ZeroDivisionError as e:
+        print(f"Ошибка при делении на ноль: {e}")
+
+    try:
+        print(f"5 + 'abc' = {calc.add(5, "abc")}")
+    except ValueError as e:
+        print(f"Ошибка при неверных данных: {e}")
+
+    print(f"10 / 3 = {calc.divide(10, 3)}")
+    print(f"10 / 3 = {format_result(calc.divide(10, 3), 4)} (с 4 знаками)")
 
 if __name__ == "__main__":
     main()
